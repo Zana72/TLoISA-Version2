@@ -1,0 +1,27 @@
+
+import Session from "../models/sessionModel.mjs";
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//add goal
+const createMetric = async (sender, data) => {
+  
+  
+  const session = await Session.findOne({ _id: data.id });
+  
+  if (session && session.active === true) {
+    session.metric = data.value;
+    await session.save();
+    const metric = session.metric;
+    
+ 
+    sender.emit("metricRes", {metric,id:session._id});
+
+  }
+
+  
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+export default createMetric;
